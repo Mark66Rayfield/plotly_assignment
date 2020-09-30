@@ -1,0 +1,32 @@
+---
+title: "Ploty first try"
+author: "Mark Rayfield"
+date: "29 September 2020"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+# data downloaded from public API http://coronavirusapi.com/time_series.csv
+rona = read.csv("time_series.csv", header=TRUE)
+library(plotly)
+```
+
+
+
+## US Covid-19 data since 1st May 2020 
+
+Source : http://coronavirusapi.com data is scraped from Public Health Pages of 50 US States & Puerto Rico
+
+```{r US_stats, echo=FALSE, message=FALSE, warning=FALSE, , eval=TRUE, warnings=FALSE}
+
+fig <- plot_ly(rona, x = ~date, y = ~tested, name = 'people tested', 
+                        type ="scatter", mode = "lines")
+fig <- fig %>% add_trace(y = ~positive, name = 'positive C19 tests', 
+                        type ="scatter", mode = 'lines')
+fig <- fig %>% add_trace(y = ~deaths, name = 'deaths attributed to C19', 
+                        type ="scatter", mode = 'lines')
+fig <- layout(fig, yaxis = list(type = "log"), yaxis = list (title = "Cases Log scale"))
+fig
+```
+
